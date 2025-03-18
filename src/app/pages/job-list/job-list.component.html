@@ -1,0 +1,48 @@
+<section>
+    <h1 class="text-center text-blue-600 font-medium text-3xl py-3">All Jobs</h1>
+    <div class="max-w-6xl mx-auto p-6">
+
+        <div class="mb-6">
+            <input (input)="searchForJob()" type="search" placeholder="Search for jobs..."
+                class="w-[50%] block mx-auto p-3  rounded-lg  focus:ring-2 focus:border-none focus:ring-blue-500"
+                [(ngModel)]="term" />
+            @if (findJob===false) {
+            <div class="p-4 mb-4 text-center text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                role="alert">
+                {{notFoundJob}}
+            </div>
+            }
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @for (job of allJobs; track job.id) {
+            <div class="bg-white p-5 rounded-xl shadow-md border border-gray-200">
+                <div class="flex justify-between">
+                    <div>
+                        <h3 class="text-xl font-semibold">{{job.title}}</h3>
+                        <p class="text-gray-500">{{job.company}} - {{job.location}}</p>
+                    </div>
+                    <div>
+                        @if (job.status === 'open' || job.status === 'Open') {
+                        <span class="text-sm bg-green-100 text-green-600 px-3 py-1 rounded-full">{{job.status}}</span>
+                        }
+                        @else {
+                        <span class="text-sm bg-red-100 text-red-600 px-3 py-1 rounded-full">{{job.status}}</span>
+                        }
+                    </div>
+                </div>
+                <p class="text-sm text-gray-400">{{job.description}}</p>
+
+                <a class="text-blue-600 font-semibold hover:underline cursor-pointer flex justify-end"
+                    [routerLink]="['/details' , job.id]">More
+                    Details</a>
+            </div>
+
+            }
+
+
+
+
+        </div>
+    </div>
+</section>

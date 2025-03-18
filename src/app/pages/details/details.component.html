@@ -1,0 +1,46 @@
+<section class="my-5">
+    <h1 class="text-center text-blue-600 text-3xl font-medium">Job Details</h1>
+    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md border border-gray-200 mt-10">
+
+        <div class="flex justify-between items-center border-b pb-4">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800">{{jobDetails.title}}</h2>
+                <p class="text-gray-500 mt-1">At : {{jobDetails.company}} {{jobDetails.location}}</p>
+                <p class="text-gray-500 mt-1">{{jobDetails.location}}</p>
+            </div>
+            @if (jobDetails.status === 'open' || jobDetails.status === 'Open') {
+            <span class="text-sm bg-green-100 text-green-600 px-3 py-1 rounded-full">{{jobDetails.status}}</span>
+            }
+            @else {
+            <span class="text-sm bg-red-100 text-red-600 px-3 py-1 rounded-full">{{jobDetails.status}}</span>
+            }
+        </div>
+
+        <div class="mt-6">
+            <h3 class="text-lg font-semibold text-gray-800">Job Description</h3>
+            <p class="text-gray-600 mt-2">
+                {{jobDetails.description}}
+            </p>
+        </div>
+
+        <div class="mt-6">
+            <h3 class="text-lg font-semibold text-gray-800">
+                Salary : <span>{{jobDetails.salary}}</span> </h3>
+
+        </div>
+        <div class="mt-6">
+            <h3 class="text-lg text-gray-800"><span class="font-semibold">Published at :</span>
+                <span>{{jobDetails.createdAt | date}}</span>
+            </h3>
+        </div>
+
+        @if (jobDetails.status==='open' || jobDetails.status === 'Open') {
+        <div class="mt-6 text-center">
+            <button (click)="applyJob()" type="submit"
+                class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                Apply Now
+            </button>
+        </div>
+        }
+    </div>
+</section>

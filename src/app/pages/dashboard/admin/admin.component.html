@@ -1,0 +1,444 @@
+<section>
+    <div class="grid grid-cols-1 md:grid-cols-6 h-screen bg-gray-100">
+        <aside class="md:col-span-1 bg-blue-600 text-white p-5">
+            <h2 class="text-2xl font-bold mb-6">Admin Panel</h2>
+            <nav>
+                <ul class="space-y-4">
+                    <li><a class="block py-2 px-4 hover:bg-blue-700 rounded-lg" (click)="showUsers=true"
+                            (click)="showJobs=false">Users</a></li>
+                    <li><a class="block py-2 px-4 hover:bg-blue-700 rounded-lg" (click)="showJobs=true"
+                            (click)="showUsers=false">Jobs</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="md:col-span-5 p-6 space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
+                @if (showUsers) {
+                <div class="w-[50%] mx-auto shadow rounded p-4 md:p-5">
+                    <form [formGroup]="addUser" (ngSubmit)="createAccount()">
+                        <div class="mb-2">
+                            @let nameControl = addUser.get('name');
+                            <label for="name"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                            <div class="relative">
+                                <i
+                                    class="fa-regular fa-user  absolute text-blue-600 left-2 top-3 animate-bounce-up-down"></i>
+                                <input formControlName="name" type="text" id="name" placeholder="Mohamed Diab"
+                                    class="placeholder:text-gray-600 bg-gray-50 border ps-7 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+                            </div>
+                            @if (nameControl?.errors && nameControl?.touched) {
+                            <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                role="alert">
+                                <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                </svg>
+                                <span class="sr-only">Danger</span>
+                                <div>
+                                    <ul class="mt-1.5 list-disc list-inside">
+                                        @if (nameControl?.getError('required')) {
+                                        <li> Name is required.</li>
+                                        }
+                                        @else if (nameControl?.getError('minlength')) {
+                                        <li> Name must be exactly 3 characters.</li>
+                                        }
+                                        @else if (nameControl?.getError('maxlength')) {
+                                        <li> Name cannot be more than 20 characters long.</li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            }
+                        </div>
+
+                        <div class="mb-2">
+                            @let emailControl = addUser.get('email');
+
+                            <label for="email"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                            <div class="relative">
+                                <i
+                                    class="fa-regular fa-envelope absolute text-blue-600 left-2 top-3 animate-bounce-up-down"></i>
+                                <input formControlName="email" type="email" id="email" placeholder="mohamed@gmail.com"
+                                    class="placeholder:text-gray-600 bg-gray-50 border ps-7 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            </div>
+
+
+                            @if (emailControl?.errors && emailControl?.touched) {
+                            <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                role="alert">
+                                <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                </svg>
+                                <span class="sr-only">Danger</span>
+                                <div>
+                                    <ul class="mt-1.5 list-disc list-inside">
+                                        @if (emailControl?.getError('required')) {
+                                        <li>Email is required.</li>
+                                        }
+                                        @else if (emailControl?.getError('email')) {
+                                        <li>Please enter a valid email address.</li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            }
+                        </div>
+
+                        <div class="mb-2">
+                            @let passwordControl = addUser.get('password');
+
+                            <label for="password"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                            <div class="relative">
+                                <i
+                                    class="fa-solid fa-lock absolute text-blue-600 left-2 top-3 animate-bounce-up-down "></i>
+                                <input formControlName="password" type="password" id="password" placeholder="*******"
+                                    class="placeholder:text-gray-600 bg-gray-50 border ps-7  border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            </div>
+                            @if (passwordControl?.errors && passwordControl?.touched) {
+                            <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                role="alert">
+                                <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                </svg>
+                                <span class="sr-only">Danger</span>
+                                <div>
+                                    <ul class="mt-1.5 list-disc list-inside">
+                                        @if (passwordControl?.getError('required')) {
+                                        <li>password is required.</li>
+                                        }
+                                        @else if (passwordControl?.getError('pattern')) {
+                                        <li>Password must start with an uppercase letter and be at least 8
+                                            characters long.</li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            }
+                        </div>
+
+                        <div class="mb-2">
+                            @let roleControl = addUser.get('role');
+                            <label for="role"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">role</label>
+                            <input formControlName="role" type="text" id="role" placeholder="Admin OR User"
+                                class="placeholder:text-gray-600 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+                            @if (roleControl?.errors && roleControl?.touched) {
+                            <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                role="alert">
+                                <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                </svg>
+                                <span class="sr-only">Danger</span>
+                                <div>
+                                    <ul class="mt-1.5 list-disc list-inside">
+                                        @if (roleControl?.getError('required')) {
+                                        <li>role is required.</li>
+                                        }
+                                        @else if (roleControl?.getError('pattern')) {
+                                        <li>Please Enter Admin Or User.</li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            }
+                        </div>
+
+
+                        <button type="submit"
+                            class="w-full mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add
+                            new account</button>
+                    </form>
+
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-semibold">User Management</h3>
+                        <button type="button" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Add
+                            User</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-gray-200">
+                                    <th class="p-3">Name</th>
+                                    <th class="p-3">Role</th>
+                                    <th class="p-3">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (user of allUsers; track user.id) {
+                                <tr class="border-t">
+                                    <td class="p-3">{{user.name}}</td>
+                                    <td class="p-3">{{user.role}}</td>
+                                    <td class="p-3">
+                                        <button class="text-red-600 hover:underline"
+                                            (click)="deleteAccount(user.id)">Delete</button>
+                                    </td>
+                                </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                }
+                @if (showJobs) {
+                <section class="bg-white p-6 rounded-lg shadow-md">
+                    <form [formGroup]="addJob" (ngSubmit)="addNewJob()" class="p-4 md:p-5">
+                        <div class="grid gap-4 mb-4 grid-cols-2">
+
+                            <div class="col-span-2">
+
+                                @let titleControl = addJob.get('title');
+                                <label for="title"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
+                                <input formControlName="title" type="text" name="title" id="title"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                    placeholder="Frontend">
+                                @if (titleControl?.errors && titleControl?.touched) {
+                                <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                    role="alert">
+                                    <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                    </svg>
+                                    <span class="sr-only">Danger</span>
+                                    <div>
+                                        <ul class="mt-1.5 list-disc list-inside">
+                                            @if (titleControl?.getError('required')) {
+                                            <li> Title is required.</li>
+                                            }
+                                            @else if (titleControl?.getError('minlength')) {
+                                            <li> Title must be exactly 3 characters.</li>
+                                            }
+                                            @else if (titleControl?.getError('maxlength')) {
+                                            <li> Title cannot be more than 20 characters long.</li>
+                                            }
+                                            @else if (titleControl?.getError('pattern')) {
+                                            <li> Title can contain only characters</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+
+                            <div class="col-span-2">
+
+                                @let descControl = addJob.get('description');
+                                <label for="description"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    Description</label>
+                                <textarea formControlName="description" id="description" rows="4"
+                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Write job description here"></textarea>
+                                @if (descControl?.errors && descControl?.touched) {
+                                <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                    role="alert">
+                                    <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                    </svg>
+                                    <span class="sr-only">Danger</span>
+                                    <div>
+                                        <ul class="mt-1.5 list-disc list-inside">
+                                            @if (descControl?.getError('required')) {
+                                            <li> description is required.</li>
+                                            }
+                                            @else if (descControl?.getError('minlength')) {
+                                            <li> description must be exactly 10 characters.</li>
+                                            }
+                                            @else if (descControl?.getError('maxlength')) {
+                                            <li> description cannot be more than 200 characters long.</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+
+                            <div class="col-span-2 sm:col-span-1">
+
+                                @let companyControl = addJob.get('company');
+                                <label for="company"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Company</label>
+                                <input formControlName="company" type="text" name="company" id="company"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                    placeholder="Vo Tech">
+                                @if (companyControl?.errors && companyControl?.touched) {
+                                <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                    role="alert">
+                                    <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                    </svg>
+                                    <span class="sr-only">Danger</span>
+                                    <div>
+                                        <ul class="mt-1.5 list-disc list-inside">
+                                            @if (companyControl?.getError('required')) {
+                                            <li> company is required.</li>
+                                            }
+                                            @else if (companyControl?.getError('minlength')) {
+                                            <li> company must be exactly 2 characters.</li>
+                                            }
+                                            @else if (companyControl?.getError('maxlength')) {
+                                            <li> company cannot be more than 50 characters long.</li>
+                                            }
+                                            @else if (companyControl?.getError('pattern')) {
+                                            <li> company can contain only characters.</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+
+                            <div class="col-span-2 sm:col-span-1">
+
+                                @let locationControl = addJob.get('location');
+                                <label for="location"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">location</label>
+                                <input formControlName="location" type="text" name="location" id="location"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                    placeholder="Tanta">
+                                @if (locationControl?.errors && locationControl?.touched) {
+                                <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                    role="alert">
+                                    <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                    </svg>
+                                    <span class="sr-only">Danger</span>
+                                    <div>
+                                        <ul class="mt-1.5 list-disc list-inside">
+                                            @if (locationControl?.getError('required')) {
+                                            <li> location is required.</li>
+                                            }
+                                            @else if (locationControl?.getError('maxlength')) {
+                                            <li> location cannot be more than 50 characters long.</li>
+                                            }
+                                            @else if (locationControl?.getError('pattern')) {
+                                            <li> location can contain only characters</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                            <div class="col-span-2">
+
+                                @let salaryControl = addJob.get('salary');
+                                <label for="salary"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">salary</label>
+                                <input formControlName="salary" type="text" name="salary" id="salary"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                    placeholder="$2999">
+                                @if (salaryControl?.errors && salaryControl?.touched) {
+                                <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                    role="alert">
+                                    <svg class="shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                    </svg>
+                                    <span class="sr-only">Danger</span>
+                                    <div>
+                                        <ul class="mt-1.5 list-disc list-inside">
+                                            @if (salaryControl?.getError('required')) {
+                                            <li> salary is required.</li>
+                                            }
+                                            @else if (salaryControl?.getError('min')) {
+                                            <li> salary must be exactly 3 digits.</li>
+                                            }
+                                            @else if (salaryControl?.getError('max')) {
+                                            <li> salary cannot be more than 20 digits long.</li>
+                                            }
+                                            @else if (salaryControl?.getError('max')) {
+                                            <li> salary can contain only numbers.</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+
+                        </div>
+                        <button type="submit"
+                            class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            Add new job
+                        </button>
+                    </form>
+                </section>
+                <section>
+
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-semibold">Job Listings</h3>
+
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-gray-200">
+                                        <th class="p-3">Job Title</th>
+                                        <th class="p-3">Company</th>
+                                        <th class="p-3">Status</th>
+                                        <th class="p-3">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (job of allJobs; track job.id) {
+                                    <tr class="border-t">
+                                        <td class="p-3">{{job.title}}</td>
+                                        <td class="p-3">{{job.company}}</td>
+                                        <td class="p-3"><span class="text-green-600">{{job.status}}</span></td>
+                                        <td class="p-3">
+                                            <button class="text-red-600 hover:underline"
+                                                (click)="deleteJob(job.id)">Delete</button>
+                                        </td>
+                                    </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                }
+            </div>
+        </main>
+
+
+
+
+
+
+
+
+
+    </div>
+</section>
